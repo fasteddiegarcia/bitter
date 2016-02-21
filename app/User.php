@@ -28,7 +28,7 @@ class User extends Authenticatable
      * Get the posts for this user.
      *
      */
-    public function posts() 
+    public function posts()
     {
         return $this->hasMany('App\Post');
     }
@@ -37,8 +37,8 @@ class User extends Authenticatable
      * Get the posts of the subbreddit.
      *
      */
-    public function userPosts() 
+    public function userPosts()
     {
-        return $this->belongsToMany('App\Post');
+        return $this->belongsToMany('App\Post')->withTimestamps();
     }
 }
