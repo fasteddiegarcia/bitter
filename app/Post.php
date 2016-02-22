@@ -11,7 +11,7 @@ class Post extends Model
      * Get the posts of the subbreddit.
      *
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }
