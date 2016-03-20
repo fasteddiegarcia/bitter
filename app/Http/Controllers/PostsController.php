@@ -32,7 +32,7 @@ class PostsController extends Controller
         $post = new \App\Post;
         $post->user_id = \Auth::user()->id;
         $post->title = $request->title;
-        $post->description = $request->description;
+        $post->post_description = $request->description;
         $post->save();
 
         return $post;
@@ -66,7 +66,7 @@ class PostsController extends Controller
         $post = \App\Post::find($id);
         if ($post->user_id = \Auth::user()->id) {
         $post->title = $request->title;
-        $post->description = $request->description;
+        $post->post_description = $request->description;
         $post->save();
         } else {
           return resoponse ("Unauthorized", 403);

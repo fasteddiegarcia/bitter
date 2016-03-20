@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Routes File
@@ -10,19 +9,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-if(env('APP_DEBUG')) {
-   // Route to view logs. Only for use in development
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-}
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('posts', 'PostsController');
-Route::resource('users', 'UsersController');
-
+if (env('APP_DEBUG')) {
+    // Route to view logs. Only for use in development
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+}
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -33,19 +27,30 @@ Route::resource('users', 'UsersController');
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-
-Route::group(['middleware' => ['web']], function () {
-    //
-});
-
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-
+    // this is where our app lives -kevin
     Route::get('/home', 'HomeController@index');
-});
-
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
+    Route::group(['prefix' => 'api'], function () {
+        Route::resource('subbreddits', 'SubbredditsController', [
+            'only' => ['index', 'show']
+        ]);
+        Route::resource('posts', 'PostsController', [
+            'only' => ['index', 'show']
+        ]);
+        Route::resource('comments', 'CommentsController', [
+            'only' => ['index', 'show']
+        ]);
+        Route::group(['middleware' => 'auth'], function () {
+            Route::resource('subbreddits', 'SubbredditsController', [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+            Route::resource('posts', 'PostsController', [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+            Route::resource('comments', 'CommentsController', [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+        });
+    });
 });
