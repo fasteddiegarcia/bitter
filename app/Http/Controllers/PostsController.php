@@ -64,11 +64,13 @@ class PostsController extends Controller
     {
         //
         $post = \App\Post::find($id);
-        $post->user_id = \Auth::user()->id;
+        if ($post->user_id = \Auth::user()->id) {
         $post->title = $request->title;
         $post->description = $request->description;
         $post->save();
-
+        } else {
+          return resoponse ("Unauthorized", 403);
+        }
         return $post;
     }
 
@@ -82,7 +84,11 @@ class PostsController extends Controller
     {
         //
         $post = \App\Post::find($id);
-        $post->delete();
+        if ($post->user_id = \Auth::user()->id) {
+          $post->delete();
+        } else {
+          return response ("Unauthorized", 403);
+        }
         return $post;
     }
 }
