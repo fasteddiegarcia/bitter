@@ -46,7 +46,7 @@ class UsersController extends Controller
     {
         //
         $user = \App\User::find($id);
-        $user->user_id = Auth::user()->id;
+        $user->user_id = \Auth::user()->id;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;

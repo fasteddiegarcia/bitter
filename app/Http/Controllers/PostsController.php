@@ -30,7 +30,7 @@ class PostsController extends Controller
     {
         //
         $post = new \App\Post;
-        $post->user_id = Auth::user()->id;
+        $post->user_id = \Auth::user()->id;
         $post->title = $request->title;
         $post->description = $request->description;
         $post->save();
@@ -64,7 +64,7 @@ class PostsController extends Controller
     {
         //
         $post = \App\Post::find($id);
-        $post->user_id = $request->user_id;
+        $post->user_id = \Auth::user()->id;
         $post->title = $request->title;
         $post->description = $request->description;
         $post->save();
